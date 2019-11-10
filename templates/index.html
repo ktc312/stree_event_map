@@ -90,18 +90,18 @@
             });
           };
         };
-        $.getJSON(event_sheet_url, function(data) {
+        $.getJSON(user_sheet_url, function(data) {
             $(data.values).each(function() {
               var desctext = this[0];
               var marker = new google.maps.Marker({
                 position: {lat:parseFloat(this[1]), lng:parseFloat(this[2])},
                 map: map,
-                icon: pin_icon,
+                icon: people_icon,
                 zIndex: -1
               });
             });
         });
-        $.getJSON(user_sheet_url, addmarker(people_icon));
+        $.getJSON(event_sheet_url, addmarker(pin_icon));
       };
     </script>
   </body>
