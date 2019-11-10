@@ -12,8 +12,8 @@
     <title>Street Event Map</title>
     <style>
       #map {
-        width: 300px;
-        height: 500px;
+        width: 100%;
+        height: 800px;
         background-color: grey;
       }
     </style>
@@ -21,31 +21,33 @@
   <body>
     {% load static %}
     <div id="map"></div>
-
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     {% include 'base/js.html' %}
 
     <script>
-
-
-    $(document).ready(function(){
-    });
-    function initMap() {
-
-      var icon = "{% static 'pin.svg' %}";
-
-	  var times_square = {lat: 40.758, lng: -73.985};
-	  var central_park = {lat: 40.782, lng: -73.965};
-	  var map = new google.maps.Map(
-	      document.getElementById('map'), {zoom: 11, center: times_square, styles: map_style});
-	  var marker = new google.maps.Marker({position: times_square, map: map,icon: icon});
-	  var marker2 = new google.maps.Marker({position: central_park, map: map, icon: icon});
-	}
+      $(document).ready(function(){
+      });
+      function initMap() {
+        var icon = "{% static 'pin.svg' %}";
+        var times_square = {lat: 40.758, lng: -73.985};
+        var map = new google.maps.Map(
+          document.getElementById('map'),
+          {zoom: 11, center: times_square, styles: map_style}
+        );
+        var sheeturl = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/Sheet1!N2:O?key={{ GCP_KET }}";
+        $.getJSON(sheeturl, function(data) {
+          $(data.values).each(function() {
+            var marker = new google.maps.Marker({
+              position: {lat:parseFloat(this[0]), lng:parseFloat(this[1])},
+              map: map
+            });
+          });
+        });
+      };
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GCP_KEY }}&callback=initMap"></script>
-
   </body>
 </html>
