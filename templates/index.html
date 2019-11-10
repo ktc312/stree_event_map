@@ -62,10 +62,22 @@
               marker.addListener('mouseout', function() {
                 infowindow.close();
               });
+              marker.addListener('click', function() {
+                window.open('http://35.236.200.146:8888/test', '_blank');
+              });
             });
           };
         };
-        $.getJSON(event_sheet_url, addmarker(pin_icon));
+        $.getJSON(event_sheet_url, function(data) {
+            $(data.values).each(function() {
+              var desctext = this[0];
+              var marker = new google.maps.Marker({
+                position: {lat:parseFloat(this[1]), lng:parseFloat(this[2])},
+                map: map,
+                icon: pin_icon,
+                zIndex: -1
+              });
+        });
         $.getJSON(user_sheet_url, addmarker(people_icon));
       };
     </script>
