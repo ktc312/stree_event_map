@@ -34,34 +34,39 @@
       function initMap() {
         var pin_icon = "{% static 'pin.svg' %}";
         var people_icon = "{% static 'people.svg' %}";
-        var event_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/Form_Responses!F2:G?key={{ GCP_KEY }}";
-        var user_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/User_Locations!B2:C?key={{ GCP_KEY }}";
+        var event_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/Form_Responses!E2:G?key={{ GCP_KEY }}";
+        var user_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/User_Locations!A2:C?key={{ GCP_KEY }}";
         var times_square = {lat: 40.758, lng: -73.985};
 
         var map = new google.maps.Map(
           document.getElementById('map'),
           {zoom: 10, center: times_square, styles: map_style}
         );
-
-        $.getJSON(event_sheet_url, function(data) {
-          $(data.values).each(function() {
-            var marker = new google.maps.Marker({
-              position: {lat:parseFloat(this[0]), lng:parseFloat(this[1])},
-              map: map,
-              icon: pin_icon
-            });
-          });
+        var infowindow = new google.maps.InfoWindow({
+          content: "Content String"
         });
-        $.getJSON(user_sheet_url, function(data) {
-          $(data.values).each(function() {
-            var marker = new google.maps.Marker({
-              position: {lat:parseFloat(this[0]), lng:parseFloat(this[1])},
-              map: map,
-              icon: people_icon,
-              zIndex: -1
+        var addmarker = function(icon) {
+          return function(data) {
+            $(data.values).each(function() {
+              var desctext = this[0];
+              var marker = new google.maps.Marker({
+                position: {lat:parseFloat(this[1]), lng:parseFloat(this[2])},
+                map: map,
+                icon: icon,
+                zIndex: -1
+              });
+              marker.addListener('mouseover', function() {
+                infowindow.setContent('<div>'+desctext+'</div>');
+                infowindow.open(map, this);
+              });
+              marker.addListener('mouseout', function() {
+                infowindow.close();
+              });
             });
-          });
-        });
+          };
+        };
+        $.getJSON(event_sheet_url, addmarker(pin_icon));
+        $.getJSON(user_sheet_url, addmarker(people_icon));
       };
     </script>
   </body>
