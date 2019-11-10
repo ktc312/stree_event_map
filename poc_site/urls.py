@@ -22,5 +22,5 @@ from .views import IndexView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^index/$', IndexView.as_view(), name='index'),
+    re_path(r'^$', IndexView.as_view(), name='index'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
