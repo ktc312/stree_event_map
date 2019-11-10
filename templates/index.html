@@ -36,15 +36,25 @@
         var times_square = {lat: 40.758, lng: -73.985};
         var map = new google.maps.Map(
           document.getElementById('map'),
-          {zoom: 11, center: times_square, styles: map_style}
+          {zoom: 10, center: times_square, styles: map_style}
         );
-        var sheeturl = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/Sheet1!N2:O?key={{ GCP_KEY }}";
-        $.getJSON(sheeturl, function(data) {
+        var event_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/Form_Responses!F2:G?key={{ GCP_KEY }}";
+        var user_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/User_Locations!B2:C?key={{ GCP_KEY }}";
+        $.getJSON(event_sheet_url, function(data) {
           $(data.values).each(function() {
             var marker = new google.maps.Marker({
               position: {lat:parseFloat(this[0]), lng:parseFloat(this[1])},
               map: map,
               icon: pin_icon
+            });
+          });
+        });
+        $.getJSON(user_sheet_url, function(data) {
+          $(data.values).each(function() {
+            var marker = new google.maps.Marker({
+              position: {lat:parseFloat(this[0]), lng:parseFloat(this[1])},
+              map: map,
+              icon: people_icon
             });
           });
         });
