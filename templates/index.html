@@ -16,11 +16,33 @@
         height: 400px;
         background-color: grey;
       }
+      .green_dot {
+        height: 25px;
+        width: 25px;
+        background-color: #004626;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .dark_dot {
+        height: 25px;
+        width: 25px;
+        background-color: #9A8478;
+        border-radius: 50%;
+        display: inline-block;
+      }
     </style>
   </head>
   <body>
     {% load static %}
     <div id="map"></div>
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+      <div>
+        <span class="green_dot"></span>
+        <span class="dark_dot"></span>
+      </div>
+    </nav>
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

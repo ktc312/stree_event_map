@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import IndexView
+from .views import IndexView, TestView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^$', IndexView.as_view(), name='index'),
+    re_path(r'^/test$', TestView.as_view(), name='test'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
