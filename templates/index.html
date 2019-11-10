@@ -33,13 +33,14 @@
       function initMap() {
         var pin_icon = "{% static 'pin.svg' %}";
         var people_icon = "{% static 'people.svg' %}";
-        var times_square = {lat: 40.758, lng: -73.985};
+        var event_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/Form_Responses!F2:G?key={{ GCP_KEY }}";
+        var user_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/User_Locations!B2:C?key={{ GCP_KEY }}";
+
         var map = new google.maps.Map(
           document.getElementById('map'),
           {zoom: 10, center: times_square, styles: map_style}
         );
-        var event_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/Form_Responses!F2:G?key={{ GCP_KEY }}";
-        var user_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/User_Locations!B2:C?key={{ GCP_KEY }}";
+
         $.getJSON(event_sheet_url, function(data) {
           $(data.values).each(function() {
             var marker = new google.maps.Marker({
