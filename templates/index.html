@@ -27,6 +27,7 @@
 
     {% include 'base/js.html' %}
 
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GCP_KEY }}&callback=initMap"></script>
     <script>
       $(document).ready(function(){
       });
@@ -35,6 +36,7 @@
         var people_icon = "{% static 'people.svg' %}";
         var event_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/Form_Responses!F2:G?key={{ GCP_KEY }}";
         var user_sheet_url = "https://sheets.googleapis.com/v4/spreadsheets/1euQRT2EmrOyEjYyJymGPLVMUycBUpDOEqUWdOPTK8bs/values/User_Locations!B2:C?key={{ GCP_KEY }}";
+        var times_square = {lat: 40.758, lng: -73.985};
 
         var map = new google.maps.Map(
           document.getElementById('map'),
@@ -55,12 +57,12 @@
             var marker = new google.maps.Marker({
               position: {lat:parseFloat(this[0]), lng:parseFloat(this[1])},
               map: map,
-              icon: people_icon
+              icon: people_icon,
+              zIndex: -1
             });
           });
         });
       };
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GCP_KEY }}&callback=initMap"></script>
   </body>
 </html>
